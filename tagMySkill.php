@@ -38,8 +38,6 @@ define('TAGMS_PLUGIN_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 if (!class_exists('tagMySkill')) {
 
 	class tagMySkill{
-
-
 		/**
 		 * @var tagMySkill
 		 */
@@ -49,8 +47,7 @@ if (!class_exists('tagMySkill')) {
 		 *
 		 * @return tagMySkill
 		 */
-		static public function getInstance()
-		{
+		static public function getInstance(){
 			if (self::$_instance == null) {
 				self::$_instance = new tagMySkill();
 			}
@@ -59,17 +56,24 @@ if (!class_exists('tagMySkill')) {
 		}
 
 
-		private function __construct()
-		{
-
+		private function __construct(){
 			register_activation_hook(TAGMS_PLUGIN_NAME, array(&$this, 'pluginActivate'));
 			register_deactivation_hook(TAGMS_PLUGIN_NAME, array(&$this, 'pluginDeactivate'));
 			register_uninstall_hook(TAGMS_PLUGIN_NAME, array('tagMySkill', 'pluginUninstall'));
 
 			## Register plugin widgets
 			add_action('init', array($this, 'load_tagms_transl'));
-			add_action('plugins_loaded', array(&$this, 'pluginLoad'));
-
+			add_action('plugins_loaded', array(&$this, 'pluginLoad'));
+			
+			add_action( 'show_user_profile', array(&$this, 'user_profile_skill_fields') );
+			add_action( 'edit_user_profile', array(&$this, 'user_profile_skill_fields') );
+			
+			
+			add_action( 'personal_options_update', array(&$this, 'save_user_profile_skill_fields') );
+			add_action( 'edit_user_profile_update', array(&$this, 'save_user_profile_skill_fields') );
+				
+			
+			
 			if (is_admin()) {
 			add_action('wp_print_scripts', array(&$this, 'adminLoadScripts'));
 			add_action('wp_print_styles', array(&$this, 'adminLoadStyles'));
@@ -85,8 +89,7 @@ if (!class_exists('tagMySkill')) {
 
 		}
 
-		public function load_tagms_transl()
-		{
+		public function load_tagms_transl(){
 			load_plugin_textdomain('tagMySkill', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
 		}
 
@@ -94,18 +97,41 @@ if (!class_exists('tagMySkill')) {
 		## Loading Scripts and Styles
 		##
 	
-		public function adminLoadStyles()
-		{
+		public function adminLoadStyles(){
 		}
 	
-		public function adminLoadScripts()
-		{
-	
+		public function adminLoadScripts(){
+			wp_enqueue_script(
+					'tag-it',
+					plugins_url('js/tag-it.min.js', __FILE__),
+					array('jquery')
+			);
+			
+			wp_enqueue_script(
+					'jqueryui',
+					'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js',
+					array('jquery')
+			);
+									wp_enqueue_script(
+					'tagmyskill',
+					plugins_url('js/tagmyskill.js', __FILE__),
+					array('jquery','tag-it')
+			);
+			
+			//http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"
+			
+			wp_enqueue_style('flick-jquery-ui',
+					'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css',
+					false,
+					'1',
+					false);
+			
+			
+			wp_register_style('tagit-style',plugins_url('css/jquery.tagit.css', __FILE__));
+			wp_enqueue_style( 'tagit-style' );
 	
 		}
-	
-	
-	
+
 		public function siteLoadStyles(){
 			
 
@@ -134,7 +160,7 @@ if (!class_exists('tagMySkill')) {
 		public function pluginActivate(){
 	
 
-			}
+		}
 
 			/**
 			* Deactivate plugin
@@ -148,29 +174,67 @@ if (!class_exists('tagMySkill')) {
 			* Uninstall plugin
 			* @return void
 			*/
-			static public function pluginUninstall()
-			{
+			static public function pluginUninstall(){
 
 			}
 
 
 			public function pluginLoad(){
 
+			}
+			
+			
+			public function user_profile_skill_fields( $user ){
+				 ?>
+			    <h3><?php echo __("Tag your skills"); ?></h3>
+			
+			    <table class="form-table">
+			        <tr>
+			            <th><label for="tagkeyskill"><?php echo __("Key Skill"); ?></label></th>
+			            <td>
+			                <input id="tagkeyskill" name="tagkeyskill" type="text" value="<?php echo get_the_author_meta( 'tagkeyskill', $user->ID ); ?>" />			             
+			            </td>
+			        </tr>
+			        <tr>
+			            <th><label for="tagotherskill"><?php echo __("Other Skill"); ?></label></th>
+			            <td>
+			            	<textarea id="tagotherskill" name="tagotherskill"><?php echo get_the_author_meta( 'tagotherskill', $user->ID ); ?></textarea>			            </td>
+			        </tr>			        
+			    </table>
+			<?php 
+			
+			}
+			
+	
+			public  function save_user_profile_skill_fields( $user_id ){
+				
+				if ( !current_user_can( 'edit_user', $user_id ) ) {
+					return false;
+				}else{
+					if(isset($_POST['tagkeyskill'])){
+						update_usermeta( $user_id, 'tagkeyskill', $_POST['tagkeyskill'] );
+					}else{
+						delete_usermeta($user_id, 'tagkeyskill');
+					}
+					
+					if(isset($_POST['tagotherskill'])){
+						update_usermeta( $user_id, 'tagotherskill', $_POST['v'] );
+					}else{
+						delete_usermeta($user_id, 'tagotherskill');
+					}
+										
+				}
 			}
-
 
 		}
 
 }
-
-
+
 //instantiate the class
 if (class_exists('tagMySkill')) {
 	$tagMySkill =  tagMySkill::getInstance();
-}
-
-				
+}
 
 
 
-
+
