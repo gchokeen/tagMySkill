@@ -1,5 +1,3 @@
 jQuery(function($){
-	$("#tagkeyskill").tagit(loadTheme: 'Flick');
-	$("#tagotherskill").tagit(loadTheme: 'Flick');
-	
+	$("#tagkeyskill,#tagotherskill").tagsInput({'defaultText':'add a skill'});
 });

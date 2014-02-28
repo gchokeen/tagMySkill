@@ -101,34 +101,24 @@ if (!class_exists('tagMySkill')) {
 		}
 	
 		public function adminLoadScripts(){
+
+
 			wp_enqueue_script(
-					'tag-it',
-					plugins_url('js/tag-it.min.js', __FILE__),
-					array('jquery')
-			);
-			
-			wp_enqueue_script(
-					'jqueryui',
-					'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js',
+					'tagsinput',
+					plugins_url('js/jquery.tagsinput.min.js', __FILE__),
 					array('jquery')
 			);
 									wp_enqueue_script(
 					'tagmyskill',
 					plugins_url('js/tagmyskill.js', __FILE__),
-					array('jquery','tag-it')
+					array('jquery','tagsinput')
 			);
 			
-			//http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"
-			
-			wp_enqueue_style('flick-jquery-ui',
-					'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css',
-					false,
-					'1',
-					false);
+
 			
 			
-			wp_register_style('tagit-style',plugins_url('css/jquery.tagit.css', __FILE__));
-			wp_enqueue_style( 'tagit-style' );
+			wp_register_style('tagsinput-style',plugins_url('css/jquery.tagsinput.css', __FILE__));
+			wp_enqueue_style( 'tagsinput-style' );
 	
 		}
 
@@ -191,14 +181,16 @@ if (!class_exists('tagMySkill')) {
 			    <table class="form-table">
 			        <tr>
 			            <th><label for="tagkeyskill"><?php echo __("Key Skill"); ?></label></th>
-			            <td>
+			            <td>			
+			                        
 			                <input id="tagkeyskill" name="tagkeyskill" type="text" value="<?php echo get_the_author_meta( 'tagkeyskill', $user->ID ); ?>" />			             
 			            </td>
 			        </tr>
 			        <tr>
 			            <th><label for="tagotherskill"><?php echo __("Other Skill"); ?></label></th>
 			            <td>
-			            	<textarea id="tagotherskill" name="tagotherskill"><?php echo get_the_author_meta( 'tagotherskill', $user->ID ); ?></textarea>			            </td>
+			               	<input id="tagotherskill" name="tagotherskill"  type="text"  value="<?php echo get_the_author_meta( 'tagotherskill', $user->ID ); ?>"/>
+			            </td>
 			        </tr>			        
 			    </table>
 			<?php 
@@ -218,7 +210,7 @@ if (!class_exists('tagMySkill')) {
 					}
 					
 					if(isset($_POST['tagotherskill'])){
-						update_usermeta( $user_id, 'tagotherskill', $_POST['v'] );
+						update_usermeta( $user_id, 'tagotherskill', $_POST['tagotherskill'] );
 					}else{
 						delete_usermeta($user_id, 'tagotherskill');
 					}
@@ -227,7 +219,6 @@ if (!class_exists('tagMySkill')) {
 			}
 
 		}
-
 }
 
 //instantiate the class
