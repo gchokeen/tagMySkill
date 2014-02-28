@@ -14,7 +14,16 @@ tagMySkill is wordpress plugin will help wp user to expose their skills to reade
 
 Add Author skills under Dashboard -> Users -> Your Profile
 
-use shortcode `[tagmyskill]` it any page/post to expose the skills to readers.
+Use shortcode `[tagmyskill]` it any page/post to expose the skills to readers.
+
+== Frequently Asked Questions == 
+
+1. What is the shortcode?
+
+Use shortcode `[tagmyskill]` it any page/post to expose the skills to readers.
+Parameters: user_id (optional)
+
+example: [tagmyskill user_id=1]
 
 == Installation ==
 
