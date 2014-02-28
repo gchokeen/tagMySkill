@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: tagMySkill
-Plugin URI: http://wordpress.org/extend/plugins/tagMySkill/
+Plugin URI: http://wordpress.org/plugins/tagmyskill/
 Description: tagMySkill is wordpress plugin will help wp user to expose their skills to reader!.
 Version: 1.0
 Author: Gowri Sankar Ramasamy
