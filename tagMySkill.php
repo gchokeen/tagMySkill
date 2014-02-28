@@ -34,7 +34,8 @@ Text Domain: tagMySkill
 
 define('TAGMS_PLUGIN_NAME', plugin_basename(__FILE__));
 define('TAGMS_PLUGIN_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-
+require_once (dirname(__FILE__) . '/classes/tagms_shortcode.php');
+
 if (!class_exists('tagMySkill')) {
 
 	class tagMySkill{
@@ -72,8 +73,7 @@ if (!class_exists('tagMySkill')) {
 			add_action( 'personal_options_update', array(&$this, 'save_user_profile_skill_fields') );
 			add_action( 'edit_user_profile_update', array(&$this, 'save_user_profile_skill_fields') );
 				
-			
-			
+
 			if (is_admin()) {
 			add_action('wp_print_scripts', array(&$this, 'adminLoadScripts'));
 			add_action('wp_print_styles', array(&$this, 'adminLoadStyles'));
@@ -124,7 +124,8 @@ if (!class_exists('tagMySkill')) {
 
 		public function siteLoadStyles(){
 			
-
+			wp_register_style('tagmyskill-style',plugins_url('css/tagmyskill.css', __FILE__));
+			wp_enqueue_style( 'tagmyskill-style' );
 	
 		}
 	
@@ -176,18 +177,18 @@ if (!class_exists('tagMySkill')) {
 			
 			public function user_profile_skill_fields( $user ){
 				 ?>
-			    <h3><?php echo __("Tag your skills"); ?></h3>
+			    <h3><?php echo __("Tag your skills", 'tagMySkill'); ?></h3>
 			
 			    <table class="form-table">
 			        <tr>
-			            <th><label for="tagkeyskill"><?php echo __("Key Skill"); ?></label></th>
+			            <th><label for="tagkeyskill"><?php echo __("Key Skills", 'tagMySkill'); ?></label></th>
 			            <td>			
 			                        
 			                <input id="tagkeyskill" name="tagkeyskill" type="text" value="<?php echo get_the_author_meta( 'tagkeyskill', $user->ID ); ?>" />			             
 			            </td>
 			        </tr>
 			        <tr>
-			            <th><label for="tagotherskill"><?php echo __("Other Skill"); ?></label></th>
+			            <th><label for="tagotherskill"><?php echo __("Other Skills", 'tagMySkill'); ?></label></th>
 			            <td>
 			               	<input id="tagotherskill" name="tagotherskill"  type="text"  value="<?php echo get_the_author_meta( 'tagotherskill', $user->ID ); ?>"/>
 			            </td>
