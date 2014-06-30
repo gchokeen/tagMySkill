@@ -3,7 +3,7 @@
 Plugin Name: tagMySkill
 Plugin URI: http://wordpress.org/plugins/tagmyskill/
 Description: tagMySkill is wordpress plugin will help wp user to expose their skills to reader!.
-Version: 1.0
+Version: 1.1
 Author: Gowri Sankar Ramasamy
 Author URI: http://code-cocktail.in/author/gowrisankar/
 Donate link: http://code-cocktail.in/donate-me/
@@ -117,14 +117,14 @@ if (!class_exists('tagMySkill')) {
 
 			
 			
-			wp_register_style('tagsinput-style',plugins_url('css/jquery.tagsinput.css', __FILE__));
+			wp_register_style('tagsinput-style',plugins_url('css/jquery.tagsinput.min.css', __FILE__));
 			wp_enqueue_style( 'tagsinput-style' );
 	
 		}
 
 		public function siteLoadStyles(){
 			
-			wp_register_style('tagmyskill-style',plugins_url('css/tagmyskill.css', __FILE__));
+			wp_register_style('tagmyskill-style',plugins_url('css/tagmyskill.min.css', __FILE__));
 			wp_enqueue_style( 'tagmyskill-style' );
 	
 		}

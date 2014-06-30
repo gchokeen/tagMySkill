@@ -3,8 +3,8 @@ Contributors: gchokeen
 Donate link: http://code-cocktail.in/donate-me/
 Tags: tags, skills
 Requires at least: 2.8
-Tested up to: 3.8.1
-Stable tag: 1.0
+Tested up to: 3.9.1
+Stable tag: 1.1
 License: GPLv2
 
 tagMySkill is wordpress plugin will help wp user to expose their skills to reader!.
@@ -42,6 +42,10 @@ e.g.
 
 = 1.0 =
 * Initial release.
+
+= 1.1 =
+* CSS optimized.
+
 
 == Upgrade Notice ==
 
