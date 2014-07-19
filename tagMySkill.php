@@ -123,14 +123,33 @@ if (!class_exists('tagMySkill')) {
 		}
 
 		public function siteLoadStyles(){
-			
+			
+			wp_register_style('tagsinput-style',plugins_url('css/jquery.tagsinput.min.css', __FILE__));
+			wp_enqueue_style( 'tagsinput-style' );
+			
+				
+			
 			wp_register_style('tagmyskill-style',plugins_url('css/tagmyskill.min.css', __FILE__));
 			wp_enqueue_style( 'tagmyskill-style' );
 	
 		}
 	
 	
-		public function siteLoadScripts(){
+		public function siteLoadScripts(){
+			wp_enqueue_script('jquery');
+			
+			wp_enqueue_script(
+					'tagsinput',
+					plugins_url('js/jquery.tagsinput.min.js', __FILE__),
+					array('jquery')
+			);
+				
+			wp_enqueue_script(
+					'tagmyskill',
+					plugins_url('js/tagmyskill.js', __FILE__),
+					array('jquery','tagsinput')
+			);
+						
 		}
 		##
 		## Widgets initializations
